@@ -1,0 +1,43 @@
+Goal:
+
+Write a program that examines a file (specified at runtime) and generates a report that details how many bytes occurred at each of the 256 byte values.  The focus is on speed.
+
+Requirements:
+-Programming language will be Rust.
+-Program MUST be coded to take a filename parameter (required), which allows the user to specify the file to be examined.
+	If only a filename is included, the current working directory must be assumed to be the path.
+-Program can optionally be coded to take a parameter that allows the user to activate multithreaded mode.  
+	If unimplemented, application must run in a single-threaded mode.
+	If implemented, and the user does not apply this parameter at runtime, application MUST default to single-threaded.
+-Program can optionally be coded to take a parameter that specifies output report path/filename.  
+	If unimplemented, application MUST output report to current working directory, with filename as "<examined_file>.byte_report".
+	If implemented, and the user does not apply this parameter at runtime, application MUST default to the behavior specified if unimplemented.
+-In order to easily test and compare correctness of implementations, the output report must conform to the following specifications:
+	The first line will contain the filename of the examined file.  This will only contain path information if path information was supplied as a command line parameter.
+	The second line will contain the number of bytes in the file.  This is a raw byte value (do not output MB, MiB, KB, KiB, Kb, etc).  Do not decorate with unit separators (aka: use 1000, not 1,000).
+	The third line through the 258th line will cover each possible byte value (0x00 through 0xff):
+		begin with byte-value in hexidecimal format. All alphabetical characters MUST be lower-case.
+		followed by a colon
+		followed by a single space
+		followed by the number of instances of that byte value in decimal format.
+
+	example:
+	If the byte 0x0a appears 14 times in the examined program, line 12 will read:
+
+	0x0a: 14
+
+Usage:
+
+-When we get together to compare, we will run the compiled application prefixed with "time" command in order to get the real time of execution.
+
+-We will test examinations of varying sizes.  Each size tested twice:
+	One of each size as "found in nature" (text document, executable, etc.  Cut to size if needed)
+	One of each generated out of /dev/urandom
+
+-Sizes:
+	"sprint" (1024 byte / 1KiB file).
+	"dash" (102400 byte / 100KiB file).
+	"long distance" (10485760 byte / 10MiB file).
+	"marathon" (4294967296 byte / 4GiB file).
+
+-Should all participants implement multithreading, races will be re-run with multithreading enabled.
